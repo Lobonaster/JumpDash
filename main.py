@@ -1,18 +1,23 @@
 import pygame
 import sys
 from level import Level
-from game_data import level1
+from game_data import level1, level2, level3
 
 pygame.init()
 screen = pygame.display.set_mode((1420, 960))
 clock = pygame.time.Clock()
 
 layouts = {
-    0: level1
+    0: level1,
+    1: level2,
+    2: level3
 }
 levels = {
-    0: Level(layouts[0], 1, screen)
+    0: Level(layouts[0], 1, screen),
+    1: Level(layouts[1], 2, screen),
+    2: Level(layouts[2], 3, screen)
 }
+
 
 def main_menu(state, progress):
     x = 0
@@ -23,6 +28,8 @@ def main_menu(state, progress):
     logo = pygame.image.load('assets/misc_art/logo.png').convert_alpha()
     play = pygame.image.load('assets/misc_art/play.png').convert_alpha()
     lvl1 = pygame.image.load('assets/misc_art/1.png').convert_alpha()
+    lvl2 = pygame.image.load('assets/misc_art/2.png').convert_alpha()
+    lvl3 = pygame.image.load('assets/misc_art/3.png').convert_alpha()
 
     click = False
     counter1 = 0
@@ -67,7 +74,7 @@ def main_menu(state, progress):
 
         elif state == 1:
 
-            if progress >= 0:
+            if progress == 0:
                 screen.blit(lvl1, (-120 + counter2, 400))
                 button1 = lvl1.get_rect(topleft=(-120 + counter2, 400))
                 counter1 += 1
@@ -75,16 +82,65 @@ def main_menu(state, progress):
                 if button1.left > 50:
                     state = 2
 
+            elif progress == 1:
+                screen.blit(lvl1, (-120 + counter2, 400))
+                button1 = lvl1.get_rect(topleft=(-120 + counter2, 400))
 
-        elif state >= 2:
+                screen.blit(lvl2, (-120 + counter2, 500))
 
-            screen.blit(lvl1, (50, 400))
-            button1 = lvl1.get_rect(topleft=(50, 400))
-            if button1.collidepoint((mx, my)):
-                if click:
-                    level_func(0, progress)
+                if button1.left > 50:
+                    state = 2
 
+            elif progress >= 2:
+                screen.blit(lvl1, (-120 + counter2, 400))
+                button1 = lvl1.get_rect(topleft=(-120 + counter2, 400))
 
+                screen.blit(lvl2, (-120 + counter2, 500))
+
+                screen.blit(lvl3, (-120 + counter2, 500))
+
+                if button1.left > 50:
+                    state = 2
+
+        elif state == 2:
+            if progress == 0:
+                screen.blit(lvl1, (50, 400))
+                button1 = lvl1.get_rect(topleft=(50, 400))
+                if button1.collidepoint((mx, my)):
+                    if click:
+                        level_func(0, progress)
+
+            elif progress == 1:
+                screen.blit(lvl1, (50, 400))
+                button1 = lvl1.get_rect(topleft=(50, 400))
+                if button1.collidepoint((mx, my)):
+                    if click:
+                        level_func(0, progress)
+
+                screen.blit(lvl2, (50, 500))
+                button2 = lvl2.get_rect(topleft=(50, 500))
+                if button2.collidepoint((mx, my)):
+                    if click:
+                        level_func(1, progress)
+
+            elif progress >= 2:
+                screen.blit(lvl1, (50, 400))
+                button1 = lvl1.get_rect(topleft=(50, 400))
+                if button1.collidepoint((mx, my)):
+                    if click:
+                        level_func(0, progress)
+
+                screen.blit(lvl2, (50, 500))
+                button2 = lvl2.get_rect(topleft=(50, 500))
+                if button2.collidepoint((mx, my)):
+                    if click:
+                        level_func(1, progress)
+
+                screen.blit(lvl3, (50, 600))
+                button3 = lvl3.get_rect(topleft=(50, 600))
+                if button3.collidepoint((mx, my)):
+                    if click:
+                        level_func(2, progress)
 
         pygame.display.update()
         clock.tick(60)

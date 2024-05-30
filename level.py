@@ -5,6 +5,7 @@ from tile import *
 from game_data import get_terrain
 from particles import ParticleEffect
 from enemy import Enemy
+from ui import UI
 
 
 class Level:
@@ -16,6 +17,7 @@ class Level:
 
         self.level_num = level_num
         self.display_surface = surface
+        self.ui = UI(self.display_surface)
         self.world_shift = 0
         self.total_world_shift = 0
 
@@ -274,6 +276,7 @@ class Level:
         self.get_player_on_ground()
         self.vertical_movement_collision()
         self.create_landing_dust()
+        self.ui.show_health(self.player_current_health, self.player_max_health)
         self.check_enemy_collision()
         self.explosion_anim.update(self.world_shift)
         self.explosion_anim.draw(self.display_surface)
